@@ -1,26 +1,25 @@
 package ru.job4j.todo.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "tasks")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String description;
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
     private boolean done;
 
-    public Task(String description) {
-        this.description = description;
-        this.created = LocalDateTime.now();
-        this.done = false;
-    }
 }
