@@ -34,7 +34,6 @@ public class TaskController {
         var optionalTask = taskService.save(task);
         if (optionalTask.isEmpty()) {
             model.addAttribute("message", "Unable to add new task. Please try again");
-            model.addAttribute("tasks", taskService.findAll());
             return "error/message";
         }
         return "redirect:/tasks";
@@ -45,7 +44,6 @@ public class TaskController {
         var optionalTask = taskService.findById(id);
         if (optionalTask.isEmpty()) {
             model.addAttribute("message", "Unable to open the task. Please try again");
-            model.addAttribute("tasks", taskService.findAll());
             return "error/message";
         }
         model.addAttribute("task", optionalTask.get());
@@ -57,7 +55,6 @@ public class TaskController {
         var optionalTask = taskService.findById(id);
         if (optionalTask.isEmpty()) {
             model.addAttribute("message", "Unable to view the task. Please try again");
-            model.addAttribute("tasks", taskService.findAll());
             return "error/message";
         }
         model.addAttribute("task", optionalTask.get());
@@ -69,7 +66,6 @@ public class TaskController {
         boolean flag = taskService.delete(id);
         if (!flag) {
             model.addAttribute("message", "Unable to delete the task. Please try again");
-            model.addAttribute("tasks", taskService.findAll());
             return "error/message";
         }
         model.addAttribute("tasks", taskService.findAll());
@@ -81,7 +77,6 @@ public class TaskController {
         boolean flag = taskService.update(task);
         if (!flag) {
             model.addAttribute("message", "Unable to update the task. Please try again");
-            model.addAttribute("tasks", taskService.findAll());
             return "error/message";
         }
         model.addAttribute("tasks", taskService.findAll());
@@ -93,7 +88,6 @@ public class TaskController {
         var tasks = taskService.findByStatusPending();
         if (tasks.isEmpty()) {
             model.addAttribute("message", "It looks like you do not have any pending tasks");
-            model.addAttribute("tasks", taskService.findAll());
             return "error/message";
         }
         model.addAttribute("tasks", tasks);
@@ -105,7 +99,6 @@ public class TaskController {
         var tasks = taskService.findByStatusDone();
         if (tasks.isEmpty()) {
             model.addAttribute("message", "It looks like you do not have any completed tasks yet");
-            model.addAttribute("tasks", taskService.findAll());
             return "error/message";
         }
         model.addAttribute("tasks", tasks);

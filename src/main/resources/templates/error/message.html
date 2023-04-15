@@ -58,37 +58,6 @@
             </div>
         </div>
     </div>
-    <div class="card-task">
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="main">
-                    <h5 class="alert-heading">ALL TASKS</h5>
-                </div>
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <td>
-                            <p class="fw-semibold">Title</p>
-                        </td>
-                        <td>
-                            <p class="fw-semibold">Created</p>
-                        </td>
-                    </tr>
-                    <tr th:each="task : ${tasks}">
-                        <td>
-                            <a class="text-decoration-none text-dark" th:href="@{|/tasks/edit/${task.id}}">
-                                <span th:text="${task.title}"></span>
-                            </a>
-                        </td>
-                        <td>
-                            <span th:text="${task.created}"></span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
 </div>
 </body>
 </html>
