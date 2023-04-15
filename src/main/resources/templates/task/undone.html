@@ -29,13 +29,13 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/pendingTask}">PENDING TASKS</a>
+                        <a class="nav-link" th:href="@{/tasks/pending}">PENDING TASKS</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/completedTask}">COMPLETED TASKS</a>
+                        <a class="nav-link" th:href="@{/tasks/completed}">COMPLETED TASKS</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/addTaskForm}">ADD NEW TASK</a>
+                        <a class="nav-link" th:href="@{/tasks/addForm}">ADD NEW TASK</a>
                     </li>
                 </ul>
                 <div class="d-flex">
@@ -49,38 +49,32 @@
     </nav>
     <div class="card mb-3">
         <div class="card-body">
-                <div class="main">
-                    <h5>ALL PENDING TASKS</h5>
-                </div>
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <td>
-                            <p class="fw-semibold">Name</p>
-                        </td>
-                        <td>
-                            <p class="fw-semibold">Created</p>
-                        </td>
-                        <td>
-                            <p class="fw-semibold">Edit</p>
-                        </td>
-                    </tr>
-                    <tr th:each="task : ${tasks}">
-                        <td>
-                            <span th:text="${task.description}"></span>
-                        </td>
-                        <td>
-                            <span th:text="${task.created}"></span>
-                        </td>
-                        <td>
-                            <a class="nav-link text-secondary" th:href="@{|/updateTaskForm/${task.id}}">
-                                <span><i class="fa fa-edit"></i></span>
-                            </a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="main">
+                <h5>ALL PENDING TASKS</h5>
             </div>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td>
+                        <p class="fw-semibold">Title</p>
+                    </td>
+                    <td>
+                        <p class="fw-semibold">Created</p>
+                    </td>
+                </tr>
+                <tr th:each="task : ${tasks}">
+                    <td>
+                        <a class="text-decoration-none text-dark" th:href="@{|/tasks/edit/${task.id}}">
+                            <span th:text="${task.title}"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <span th:text="${task.created}"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>

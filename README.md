@@ -1,17 +1,17 @@
 The project job4j_todo
 
 Technology stack to be used: 
-Java 17
-Maven 4.00
-Spring boot, 
-Thymeleaf, 
-Bootstrap, 
-Hibernate 5.6.11, 
-PostgreSql 42.2.9
-Lombok 1.18.22
-Liquibase 4.15.04
-log4j 1.2.17
-h2database 2.1.214
+- Java 17
+- Maven 4.00
+- Spring boot
+- Thymeleaf
+- Bootstrap
+- Hibernate 5.6.11
+- PostgreSql 42.2.9
+- Lombok 1.18.22
+- Liquibase 4.15.04
+- log4j 1.2.17
+- h2database 2.1.214
 
 
 Description of the project:

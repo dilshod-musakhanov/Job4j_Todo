@@ -24,19 +24,19 @@
                 <a class="navbar-brand" th:href="@{/index}">TASKS</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                     aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarText">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/pendingTask}">PENDING TASKS</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/completedTask}">COMPLETED TASKS</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/addTaskForm}">ADD NEW TASK</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/tasks/pending}">PENDING TASKS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/tasks/completed}">COMPLETED TASKS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/tasks/addForm}">ADD NEW TASK</a>
+                        </li>
                     </ul>
                     <div class="d-flex">
                         <a class="nav-link text-secondary" href="#">
@@ -48,39 +48,28 @@
             </div>
         </nav>
         <div class="card mb-3">
-            <div class="card-body">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card-body">
                     <div class="main">
-                        <h5>ALL COMPLETED TASKS</h5>
+                    <h5>ADD NEW TASK</h5>
                     </div>
-                    <table class="table">
-                    <tbody>
-                        <tr>
-                        <td>
-                            <p class="fw-semibold">Name</p>
-                        </td>
-                        <td>
-                            <p class="fw-semibold">Created</p>
-                        </td>
-                        <td>
-                            <p class="fw-semibold">Edit</p>
-                        </td>
-                        </tr>
-                        <tr th:each="task : ${tasks}">
-                        <td>
-                            <span th:text="${task.description}"></span>
-                        </td>
-                        <td>
-                            <span th:text="${task.created}"></span>
-                        </td>
-                        <td>
-                            <a class="nav-link text-secondary" th:href="@{|/updateTaskForm/${task.id}}">
-                                <span><i class="fa fa-edit"></i></span>
-                            </a>
-                        </td>
-                        </tr>
-                    </tbody>
-                    </table>
+                    <div class="card-body">
+                        <form th:action="@{/tasks/addNew}" method="POST">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" class="form-control" name="title" id="title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <input type="text" class="form-control" name="description" id="description" required>
+                            </div>
+                            <div class="submit-task-button mt-3">
+                                <button type="submit" class="btn btn-dark">Submit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
+            </div>
         </div>
     </div>
 </body>

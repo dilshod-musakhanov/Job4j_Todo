@@ -23,8 +23,8 @@
             <div class="container-fluid">
                 <a class="navbar-brand" th:href="@{/index}">TASKS</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarText">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -47,25 +47,33 @@
                 </div>
             </div>
         </nav>
-        <div class="card-task">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="main">
-                    <h5>WELCOME TO TASK MANAGER</h5>
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="main">
+                    <h5>ALL COMPLETED TASKS</h5>
                 </div>
-                    <p class="card-text">
-                    <h5><a class="nav-link text-secondary" th:href="@{/tasks}">View all tasks</a></h5>
-                    </p>
-                    <p class="card-text">
-                    <h5><a class="nav-link text-secondary" th:href="@{/tasks/pending}">Pending tasks</a></h5>
-                    </p>
-                    <p class="card-text">
-                    <h5><a class="nav-link text-secondary" th:href="@{/tasks/completed}">Completed tasks</a></h5>
-                    </p>
-                    <p class="card-text">
-                    <h5><a class="nav-link text-secondary" th:href="@{/tasks/addForm}">Add new task</a></h5>
-                    </p>
-                </div>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p class="fw-semibold">Title</p>
+                            </td>
+                            <td>
+                                <p class="fw-semibold">Created</p>
+                            </td>
+                        </tr>
+                        <tr th:each="task : ${tasks}">
+                            <td>
+                                <a class="text-decoration-none text-dark" th:href="@{|/tasks/edit/${task.id}}">
+                                    <span th:text="${task.title}"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <span th:text="${task.created}"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

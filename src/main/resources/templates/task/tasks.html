@@ -29,13 +29,13 @@
                 <div class="collapse navbar-collapse" id="navbarText">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/pendingTask}">PENDING TASKS</a>
+                            <a class="nav-link" th:href="@{/tasks/pending}">PENDING TASKS</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/completedTask}">COMPLETED TASKS</a>
+                            <a class="nav-link" th:href="@{/tasks/completed}">COMPLETED TASKS</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/addTaskForm}">ADD NEW TASK</a>
+                            <a class="nav-link" th:href="@{/tasks/addForm}">ADD NEW TASK</a>
                         </li>
                     </ul>
                     <div class="d-flex">
@@ -47,32 +47,6 @@
                 </div>
             </div>
         </nav>
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" th:href="@{/pendingTask}">PENDING TASKS</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/completedTask}">COMPLETED TASKS</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/addTaskForm}">ADD NEW TASK</a>
-                    </li>
-                </ul>
-                <div class="d-flex">
-                    <a class="nav-link text-secondary" href="#">
-                        <span>SIGN UP |</span></a>
-                    <a class="nav-link text-secondary" href="#">
-                        <span>| LOG IN</span></a>
-                </div>
-            </div>
-        </div>
-        </nav>
         <div class="card-task">
             <div class="card mb-3">
                 <div class="card-body">
@@ -83,26 +57,20 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <p class="fw-semibold">Name</p>
+                                    <p class="fw-semibold">Title</p>
                                 </td>
                                 <td>
                                     <p class="fw-semibold">Created</p>
                                 </td>
-                                <td>
-                                    <p class="fw-semibold">Edit</p>
-                                </td>
                             </tr>
                             <tr th:each="task : ${tasks}">
                                 <td>
-                                    <span th:text="${task.description}"></span>
+                                    <a class="text-decoration-none text-dark" th:href="@{|/tasks/edit/${task.id}}">
+                                        <span th:text="${task.title}"></span>
+                                    </a>
                                 </td>
                                 <td>
                                     <span th:text="${task.created}"></span>
-                                </td>
-                                <td>
-                                    <a class="nav-link text-secondary" th:href="@{|/updateTaskForm/${task.id}}">
-                                    <span><i class="fa fa-edit"></i></span>
-                                    </a>
                                 </td>
                             </tr>
                         </tbody>

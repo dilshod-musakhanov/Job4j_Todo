@@ -23,19 +23,19 @@
             <div class="container-fluid">
                 <a class="navbar-brand" th:href="@{/index}">TASKS</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarText">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/pendingTask}">PENDING TASKS</a>
+                            <a class="nav-link" th:href="@{/tasks/pending}">PENDING TASKS</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/completedTask}">COMPLETED TASKS</a>
+                            <a class="nav-link" th:href="@{/tasks/completed}">COMPLETED TASKS</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/addTaskForm}">ADD NEW TASK</a>
+                            <a class="nav-link" th:href="@{/tasks/addForm}">ADD NEW TASK</a>
                         </li>
                     </ul>
                     <div class="d-flex">
@@ -51,19 +51,30 @@
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                 <div class="card-body">
                     <div class="main">
-                    <h5>ADD NEW TASK</h5>
+                    <h5>EDIT TASK</h5>
                     </div>
-                    <div class="card-body">
-                        <form th:action="@{/addNewTask}" method="POST">
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <input type="text" class="form-control" name="description" id="description" required>
-                            </div>
-                            <div class="submit-task-button mt-3">
-                                <button type="submit" class="btn btn-dark">Submit</button>
-                            </div>
-                        </form>
-                    </div>
+                    <form th:action="@{/tasks/update}" method="POST" th:object="${task}">
+                        <input type="hidden" name="id" th:field="*{id}">
+                        <input type="hidden" name="created" th:field="*{created}">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" th:field="*{title}" class="form-control" name="title" id="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea type="text" th:field="*{description}" class="form-control" name="description" id="description" required aria-label="With textarea"></textarea>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" name="done" type="checkbox" id="done" th:checked="${task.done}">
+                            <label class="form-check-label" for="done">Mark as done</label>
+                        </div>
+                        <div class="submit-task-button mt-3" style="display: inline-block">
+                            <button class="btn btn-dark">Update</button>
+                        </div>
+                        <div class="back-button mt-3"style="display: inline-block">
+                            <a th:href="@{|/tasks/edit/${task.id}}" class="btn btn-dark">Back</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
