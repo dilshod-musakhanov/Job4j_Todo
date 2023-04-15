@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.repository.TaskRepository;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -17,6 +19,7 @@ public class HibTaskService implements TaskService {
 
     @Override
     public Optional<Task> save(Task task) {
+        task.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
         return taskRepository.save(task);
     }
 
@@ -31,18 +34,13 @@ public class HibTaskService implements TaskService {
     }
 
     @Override
-    public void setTaskDone(int id) {
-        taskRepository.setTaskDone(id);
+    public boolean delete(int id) {
+        return taskRepository.delete(id);
     }
 
     @Override
-    public void delete(int id) {
-        taskRepository.delete(id);
-    }
-
-    @Override
-    public void update(Task task) {
-        taskRepository.update(task);
+    public boolean update(Task task) {
+        return taskRepository.update(task);
     }
 
     @Override

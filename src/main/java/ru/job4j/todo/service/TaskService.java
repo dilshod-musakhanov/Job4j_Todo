@@ -9,9 +9,8 @@ public interface TaskService {
     Optional<Task> save(Task task);
     Collection<Task> findAll();
     Optional<Task> findById(int id);
-    void setTaskDone(int id);
-    void delete(int id);
-    void update(Task task);
+    boolean delete(int id);
+    boolean update(Task task);
     Collection<Task> findByStatusDone();
     Collection<Task> findByStatusPending();
 }

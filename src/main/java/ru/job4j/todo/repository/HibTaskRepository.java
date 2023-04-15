@@ -9,8 +9,6 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Task;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -24,8 +22,6 @@ public class HibTaskRepository implements TaskRepository {
 
     @Override
     public Optional<Task> save(Task task) {
-        task.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
-        System.out.println("******************" + task.getDescription() + "**********************");
         Session session = sf.openSession();
         Transaction transaction = null;
         try {
@@ -51,7 +47,7 @@ public class HibTaskRepository implements TaskRepository {
         try {
             transaction = session.beginTransaction();
             Collection<Task> allTasks = session.createQuery(
-                    "FROM Task", Task.class).list();
+                    "FROM Task ORDER BY title ASC", Task.class).list();
             transaction.commit();
             return allTasks;
         } catch (Exception e) {
@@ -88,37 +84,18 @@ public class HibTaskRepository implements TaskRepository {
     }
 
     @Override
-    public void setTaskDone(int id) {
+    public boolean delete(int id) {
         Session session = sf.openSession();
         Transaction transaction = null;
-        Optional<Task> optionalTask = findById(id);
+        boolean flag = false;
         try {
             transaction = session.beginTransaction();
-            Task task = optionalTask.get();
-            task.setDone(true);
-            session.update(task);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            LOG.error("Exception in setting Task done by id: " + id + " " + e);
-        } finally {
-            session.close();
-        }
-    }
-
-    @Override
-    public void delete(int id) {
-        Session session = sf.openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            session.createQuery(
+            int rowsAffected = session.createQuery(
                     "DELETE Task WHERE id = :fId")
                     .setParameter("fId", id)
                     .executeUpdate();
             transaction.commit();
+            flag = rowsAffected > 0;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -127,16 +104,19 @@ public class HibTaskRepository implements TaskRepository {
         } finally {
             session.close();
         }
+        return flag;
     }
 
     @Override
-    public void update(Task task) {
+    public boolean update(Task task) {
         Session session = sf.openSession();
         Transaction transaction = null;
+        boolean flag = false;
         try {
             transaction = session.beginTransaction();
             session.update(task);
             transaction.commit();
+            flag = true;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -145,6 +125,7 @@ public class HibTaskRepository implements TaskRepository {
         } finally {
             session.close();
         }
+        return flag;
     }
 
     @Override
