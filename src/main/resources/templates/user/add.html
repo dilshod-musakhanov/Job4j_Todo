@@ -52,14 +52,28 @@
             </div>
         </div>
     </nav>
-    <div class="card-task">
+    <div>
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <h4 class="alert-heading">Oops!</h4>
-                    <p class="text" th:text="${message}"></p>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+                <form th:action="@{/users/addNew}" method="POST">
+                    <div class="text-center mb-3">
+                        <h5>PLEASE SIGN UP</h5>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control"  name="name" id="name" aria-describedby="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" id="email" aria-describedby="email" required>
+                        <div class="form-text">We'll never share your email with anyone else.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-dark">Submit</button>
+                </form>
             </div>
         </div>
     </div>

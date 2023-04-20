@@ -38,11 +38,16 @@
                             <a class="nav-link" th:href="@{/tasks/addForm}">ADD NEW TASK</a>
                         </li>
                     </ul>
-                    <div class="d-flex">
-                        <a class="nav-link text-secondary" href="#">
+                    <div class="d-flex" th:if="${user.name == 'Guest'}">
+                        <a class="nav-link text-secondary" th:href="@{/users/signUpForm}">
                             <span>SIGN UP |</span></a>
-                        <a class="nav-link text-secondary" href="#">
+                        <a class="nav-link text-secondary" th:href="@{/users/loginForm}">
                             <span>| LOG IN</span></a>
+                    </div>
+                    <div class="d-flex" th:if="${user.name != 'Guest'}">
+                        <a class="nav-link text-secondary" th:text="${user.name} + ' |'"></a>
+                        <a class="nav-link text-secondary" th:href="@{/users/logout}">
+                            <span>| LOG OUT</span></a>
                     </div>
                 </div>
             </div>
