@@ -58,11 +58,12 @@ public class TaskController {
 
     @GetMapping("/edit/{id}")
     public String editTaskById(Model model, @PathVariable("id") int id) {
-        var optionalTaskDto = taskService.convertToTaskDtoById(id);
-        if (optionalTaskDto.isEmpty()) {
+        var optionalTask = taskService.findById(id);
+        if (optionalTask.isEmpty()) {
             model.addAttribute("message", "Unable to view the task. Please try again");
             return "error/message";
         }
+        var optionalTaskDto = taskService.convertToTaskDtoById(optionalTask.get().getId());
         model.addAttribute("task", optionalTaskDto.get());
         return "task/task";
     }
@@ -79,7 +80,9 @@ public class TaskController {
     }
 
     @PostMapping("/update")
-    public String updateTask(Model model, @ModelAttribute Task task) {
+    public String updateTask(Model model, @ModelAttribute Task task, HttpSession session) {
+        var user = (User) session.getAttribute("user");
+        task.setUser(user);
         boolean flag = taskService.update(task);
         if (!flag) {
             model.addAttribute("message", "Unable to update the task. Please try again");
