@@ -5,7 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.Task;
+import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.TaskService;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @AllArgsConstructor
@@ -15,11 +18,12 @@ public class TaskController {
 
     @GetMapping
     public String findAllTask(Model model) {
-        var tasks = taskService.findAll();
+        var tasks = taskService.findAllTaskDto();
         if (tasks.isEmpty()) {
             model.addAttribute("message", "Your task bucket is empty. Please add new task");
             return "error/message";
         }
+
         model.addAttribute("tasks", tasks);
         return "task/tasks";
     }
@@ -30,7 +34,9 @@ public class TaskController {
     }
 
     @PostMapping("/addNew")
-    public String addNewTask(Model model, @ModelAttribute Task task) {
+    public String addNewTask(Model model, @ModelAttribute Task task, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        task.setUser(user);
         var optionalTask = taskService.save(task);
         if (optionalTask.isEmpty()) {
             model.addAttribute("message", "Unable to add new task. Please try again");
@@ -52,12 +58,12 @@ public class TaskController {
 
     @GetMapping("/edit/{id}")
     public String editTaskById(Model model, @PathVariable("id") int id) {
-        var optionalTask = taskService.findById(id);
-        if (optionalTask.isEmpty()) {
+        var optionalTaskDto = taskService.convertToTaskDtoById(id);
+        if (optionalTaskDto.isEmpty()) {
             model.addAttribute("message", "Unable to view the task. Please try again");
             return "error/message";
         }
-        model.addAttribute("task", optionalTask.get());
+        model.addAttribute("task", optionalTaskDto.get());
         return "task/task";
     }
 
@@ -68,7 +74,7 @@ public class TaskController {
             model.addAttribute("message", "Unable to delete the task. Please try again");
             return "error/message";
         }
-        model.addAttribute("tasks", taskService.findAll());
+        model.addAttribute("tasks", taskService.findAllTaskDto());
         return "task/tasks";
     }
 
@@ -79,7 +85,7 @@ public class TaskController {
             model.addAttribute("message", "Unable to update the task. Please try again");
             return "error/message";
         }
-        model.addAttribute("tasks", taskService.findAll());
+        model.addAttribute("tasks", taskService.findAllTaskDto());
         return "task/tasks";
     }
 
@@ -90,7 +96,8 @@ public class TaskController {
             model.addAttribute("message", "It looks like you do not have any pending tasks");
             return "error/message";
         }
-        model.addAttribute("tasks", tasks);
+        var pendingTasks = taskService.covertAllToTaskDto(tasks);
+        model.addAttribute("tasks", pendingTasks);
         return "task/undone";
     }
 
@@ -101,7 +108,8 @@ public class TaskController {
             model.addAttribute("message", "It looks like you do not have any completed tasks yet");
             return "error/message";
         }
-        model.addAttribute("tasks", tasks);
+        var completedTasks = taskService.covertAllToTaskDto(tasks);
+        model.addAttribute("tasks", completedTasks);
         return "task/done";
     }
 

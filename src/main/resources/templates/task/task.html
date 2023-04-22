@@ -67,6 +67,12 @@
                                 <td>
                                     <p class="fw-semibold">Description</p>
                                 </td>
+                                <td>
+                                    <p class="fw-semibold">User</p>
+                                </td>
+                                <td>
+                                    <p class="fw-semibold">Created</p>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
@@ -74,6 +80,12 @@
                                 </td>
                                 <td>
                                     <span th:text="${task.description}"></span>
+                                </td>
+                                <td>
+                                    <span th:text="${task.userName}"></span>
+                                </td>
+                                <td>
+                                    <span th:text="${task.created}"></span>
                                 </td>
                             </tr>
                         </tbody>

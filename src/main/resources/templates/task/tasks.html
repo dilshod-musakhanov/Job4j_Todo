@@ -65,7 +65,7 @@
                                     <p class="fw-semibold">Title</p>
                                 </td>
                                 <td>
-                                    <p class="fw-semibold">Created</p>
+                                    <p class="fw-semibold">User</p>
                                 </td>
                             </tr>
                             <tr th:each="task : ${tasks}">
@@ -75,7 +75,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <span th:text="${task.created}"></span>
+                                    <span th:text="${task.userName}"></span>
                                 </td>
                             </tr>
                         </tbody>

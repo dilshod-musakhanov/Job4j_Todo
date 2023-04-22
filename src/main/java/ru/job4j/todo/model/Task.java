@@ -3,6 +3,7 @@ package ru.job4j.todo.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.EqualsAndHashCode.Include;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -18,14 +19,18 @@ import java.time.LocalDateTime;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
+    @Include
     private int id;
 
-    @EqualsAndHashCode.Include
+    @Include
     private String title;
 
     private String description;
     private LocalDateTime created = LocalDateTime.now();
     private boolean done;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }
