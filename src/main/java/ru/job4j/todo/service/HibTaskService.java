@@ -1,26 +1,20 @@
 package ru.job4j.todo.service;
 
 import org.springframework.stereotype.Service;
-import ru.job4j.todo.dto.TaskDto;
 import ru.job4j.todo.model.Task;
-import ru.job4j.todo.model.User;
 import ru.job4j.todo.repository.TaskRepository;
-import ru.job4j.todo.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
 @Service
 public class HibTaskService implements TaskService {
     private final TaskRepository taskRepository;
-    private final UserRepository userRepository;
 
-    public HibTaskService(TaskRepository hibTaskRepository, UserRepository userRepository) {
+    public HibTaskService(TaskRepository hibTaskRepository) {
         this.taskRepository = hibTaskRepository;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -59,51 +53,4 @@ public class HibTaskService implements TaskService {
         return taskRepository.findByStatus(false);
     }
 
-    @Override
-    public Collection<TaskDto> findAllTaskDto() {
-        var tasks = taskRepository.findAll();
-        var users = userRepository.findAll();
-        var taskDtos = new ArrayList<TaskDto>();
-        for (var task : tasks) {
-            for (var user : users) {
-                if (task.getUser().getId() == user.getId()) {
-                    var taskDto = createDto(task, user);
-                    taskDtos.add(taskDto);
-                }
-            }
-        }
-        return taskDtos;
-    }
-
-    @Override
-    public Optional<TaskDto> convertToTaskDtoById(int id) {
-        var task = taskRepository.findById(id);
-        var user = userRepository.findById(task.get().getUser().getId());
-        return Optional.of(createDto(task.get(), user.get()));
-    }
-
-    @Override
-    public Collection<TaskDto> covertAllToTaskDto(Collection<Task> tasks) {
-        var users = userRepository.findAll();
-        var taskDtos = new ArrayList<TaskDto>();
-        for (var task : tasks) {
-            for (var user : users) {
-                if (task.getUser().getId() == user.getId()) {
-                    var taskDto = createDto(task, user);
-                    taskDtos.add(taskDto);
-                }
-            }
-        }
-        return taskDtos;
-    }
-
-    private TaskDto createDto(Task task, User user) {
-        var taskDto = new TaskDto();
-        taskDto.setId(task.getId());
-        taskDto.setTitle(task.getTitle());
-        taskDto.setDescription(task.getDescription());
-        taskDto.setCreated(task.getCreated());
-        taskDto.setUserName(user.getName());
-        return taskDto;
-    }
 }

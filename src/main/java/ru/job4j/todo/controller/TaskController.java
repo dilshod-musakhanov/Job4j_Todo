@@ -18,7 +18,7 @@ public class TaskController {
 
     @GetMapping
     public String findAllTask(Model model) {
-        var tasks = taskService.findAllTaskDto();
+        var tasks = taskService.findAll();
         if (tasks.isEmpty()) {
             model.addAttribute("message", "Your task bucket is empty. Please add new task");
             return "error/message";
@@ -63,8 +63,7 @@ public class TaskController {
             model.addAttribute("message", "Unable to view the task. Please try again");
             return "error/message";
         }
-        var optionalTaskDto = taskService.convertToTaskDtoById(optionalTask.get().getId());
-        model.addAttribute("task", optionalTaskDto.get());
+        model.addAttribute("task", optionalTask.get());
         return "task/task";
     }
 
@@ -75,7 +74,7 @@ public class TaskController {
             model.addAttribute("message", "Unable to delete the task. Please try again");
             return "error/message";
         }
-        model.addAttribute("tasks", taskService.findAllTaskDto());
+        model.addAttribute("tasks", taskService.findAll());
         return "task/tasks";
     }
 
@@ -88,7 +87,7 @@ public class TaskController {
             model.addAttribute("message", "Unable to update the task. Please try again");
             return "error/message";
         }
-        model.addAttribute("tasks", taskService.findAllTaskDto());
+        model.addAttribute("tasks", taskService.findAll());
         return "task/tasks";
     }
 
@@ -99,8 +98,7 @@ public class TaskController {
             model.addAttribute("message", "It looks like you do not have any pending tasks");
             return "error/message";
         }
-        var pendingTasks = taskService.covertAllToTaskDto(tasks);
-        model.addAttribute("tasks", pendingTasks);
+        model.addAttribute("tasks", tasks);
         return "task/undone";
     }
 
@@ -111,8 +109,7 @@ public class TaskController {
             model.addAttribute("message", "It looks like you do not have any completed tasks yet");
             return "error/message";
         }
-        var completedTasks = taskService.covertAllToTaskDto(tasks);
-        model.addAttribute("tasks", completedTasks);
+        model.addAttribute("tasks", tasks);
         return "task/done";
     }
 

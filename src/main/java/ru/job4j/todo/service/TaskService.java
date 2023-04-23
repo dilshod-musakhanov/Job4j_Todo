@@ -1,6 +1,5 @@
 package ru.job4j.todo.service;
 
-import ru.job4j.todo.dto.TaskDto;
 import ru.job4j.todo.model.Task;
 
 import java.util.Collection;
@@ -14,7 +13,4 @@ public interface TaskService {
     boolean update(Task task);
     Collection<Task> findByStatusDone();
     Collection<Task> findByStatusPending();
-    Collection<TaskDto> findAllTaskDto();
-    Optional<TaskDto> convertToTaskDtoById(int id);
-    Collection<TaskDto> covertAllToTaskDto(Collection<Task> task);
 }
