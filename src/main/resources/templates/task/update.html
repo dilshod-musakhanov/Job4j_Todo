@@ -69,6 +69,12 @@
                             <label for="description">Description</label>
                             <textarea type="text" th:field="*{description}" class="form-control" name="description" id="description" required aria-label="With textarea"></textarea>
                         </div>
+                        <div class="form-group">
+                            <label for="priority.id">Priority</label>
+                            <select class="form-control" id="priority.id" name="priority.id">
+                                <option th:each="priority : ${priorities}" th:value="${priority.id}" th:text="${priority.name}"></option>
+                            </select>
+                        </div>
                         <div class="form-check">
                             <input class="form-check-input" name="done" type="checkbox" id="done" th:checked="${task.done}">
                             <label class="form-check-label" for="done">Mark as done</label>

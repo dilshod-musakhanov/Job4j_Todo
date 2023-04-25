@@ -32,7 +32,7 @@ public class HibTaskRepository implements TaskRepository {
     public Collection<Task> findAll() {
         try {
             Collection<Task> allTasks = crudRepository.query(
-                    "FROM Task ORDER BY title ASC",
+                    "FROM Task t JOIN FETCH t.priority ORDER BY title ASC",
                     Task.class
             );
             return allTasks;
@@ -46,7 +46,7 @@ public class HibTaskRepository implements TaskRepository {
     public Optional<Task> findById(int id) {
         try {
             return crudRepository.optional(
-                    "FROM Task AS t WHERE t.id = :fId",
+                    "FROM Task t JOIN FETCH t.priority WHERE t.id = :fId",
                     Task.class,
                     Map.of("fId", id)
             );

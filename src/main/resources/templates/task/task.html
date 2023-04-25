@@ -68,6 +68,9 @@
                                     <p class="fw-semibold">Description</p>
                                 </td>
                                 <td>
+                                    <p class="fw-semibold">Priority</p>
+                                </td>
+                                <td>
                                     <p class="fw-semibold">User</p>
                                 </td>
                                 <td>
@@ -80,6 +83,9 @@
                                 </td>
                                 <td>
                                     <span th:text="${task.description}"></span>
+                                </td>
+                                <td>
+                                    <span th:text="${(task.priority).name}"></span>
                                 </td>
                                 <td>
                                     <span th:text="${(task.user).name}"></span>

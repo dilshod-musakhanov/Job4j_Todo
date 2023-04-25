@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
+import ru.job4j.todo.service.PriorityService;
 import ru.job4j.todo.service.TaskService;
 
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/tasks")
 public class TaskController {
     private final TaskService taskService;
+    private final PriorityService priorityService;
 
     @GetMapping
     public String findAllTask(Model model) {
@@ -29,7 +31,9 @@ public class TaskController {
     }
 
     @GetMapping("/addForm")
-    public String getTaskForm() {
+    public String getTaskForm(Model model) {
+        var priorities = priorityService.findAll();
+        model.addAttribute("priorities", priorities);
         return "task/add";
     }
 
@@ -52,6 +56,8 @@ public class TaskController {
             model.addAttribute("message", "Unable to open the task. Please try again");
             return "error/message";
         }
+        var priorities = priorityService.findAll();
+        model.addAttribute("priorities", priorities);
         model.addAttribute("task", optionalTask.get());
         return "task/update";
     }
