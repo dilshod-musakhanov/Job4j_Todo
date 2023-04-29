@@ -64,6 +64,9 @@
                         <p class="fw-semibold">Title</p>
                     </td>
                     <td>
+                        <p class="fw-semibold">Priority</p>
+                    </td>
+                    <td>
                         <p class="fw-semibold">User</p>
                     </td>
                     <td>
@@ -75,6 +78,9 @@
                         <a class="text-decoration-none text-dark" th:href="@{|/tasks/edit/${task.id}}">
                             <span th:text="${task.title}"></span>
                         </a>
+                    </td>
+                    <td>
+                        <span th:text="${(task.priority).name}"></span>
                     </td>
                     <td>
                         <span th:text="${(task.user).name}"></span>

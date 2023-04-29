@@ -71,6 +71,9 @@
                                     <p class="fw-semibold">Priority</p>
                                 </td>
                                 <td>
+                                    <p class="fw-semibold">Category</p>
+                                </td>
+                                <td>
                                     <p class="fw-semibold">User</p>
                                 </td>
                                 <td>
@@ -86,6 +89,11 @@
                                 </td>
                                 <td>
                                     <span th:text="${(task.priority).name}"></span>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li class="list-group-item" th:each="category : ${task.categories}" th:text="${category.name}"></li>
+                                    </ul>
                                 </td>
                                 <td>
                                     <span th:text="${(task.user).name}"></span>

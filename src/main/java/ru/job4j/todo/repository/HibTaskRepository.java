@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
@@ -31,11 +32,11 @@ public class HibTaskRepository implements TaskRepository {
     @Override
     public Collection<Task> findAll() {
         try {
-            Collection<Task> allTasks = crudRepository.query(
-                    "FROM Task t JOIN FETCH t.priority ORDER BY title ASC",
+            var allTasks = crudRepository.query(
+                    "FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories ORDER BY title ASC",
                     Task.class
             );
-            return allTasks;
+            return allTasks.stream().distinct().collect(Collectors.toList());
         } catch (Exception e) {
             LOG.error("Exception in finding all Tasks: " + e);
         }
@@ -46,7 +47,7 @@ public class HibTaskRepository implements TaskRepository {
     public Optional<Task> findById(int id) {
         try {
             return crudRepository.optional(
-                    "FROM Task t JOIN FETCH t.priority WHERE t.id = :fId",
+                    "FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories WHERE t.id = :fId",
                     Task.class,
                     Map.of("fId", id)
             );
@@ -85,7 +86,7 @@ public class HibTaskRepository implements TaskRepository {
     public Collection<Task> findByStatus(boolean flag) {
         try {
             Collection<Task> allTasks = crudRepository.query(
-                    "FROM Task AS t WHERE t.done = :fDone",
+                    "FROM Task AS t JOIN FETCH t.priority WHERE t.done = :fDone",
                     Task.class,
                     Map.of("fDone", flag)
             );
