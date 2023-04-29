@@ -1,7 +1,7 @@
 package ru.job4j.todo.repository;
 
 import lombok.AllArgsConstructor;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Priority;
 
@@ -10,8 +10,8 @@ import java.util.Collections;
 
 @Repository
 @AllArgsConstructor
+@Log4j
 public class HibPriorityRepository implements PriorityRepository {
-    private static final Logger LOG = Logger.getLogger(HibTaskRepository.class.getName());
     private final CrudRepository crudRepository;
 
     @Override
@@ -23,7 +23,7 @@ public class HibPriorityRepository implements PriorityRepository {
             );
             return allPriorities;
         } catch (Exception e) {
-            LOG.error("Exception in finding all Priority: " + e);
+            log.error("Exception in finding all Priority: " + e);
         }
         return Collections.emptyList();
     }

@@ -1,7 +1,8 @@
 package ru.job4j.todo.repository;
 
 import lombok.AllArgsConstructor;
-import org.apache.log4j.Logger;
+
+import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.User;
 
@@ -12,9 +13,8 @@ import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
+@Log4j
 public class HibUserRepository implements UserRepository {
-
-    private static final Logger LOG = Logger.getLogger(HibUserRepository.class.getName());
     private final CrudRepository crudRepository;
 
     @Override
@@ -23,7 +23,7 @@ public class HibUserRepository implements UserRepository {
             crudRepository.run(session -> session.persist(user));
             return Optional.of(user);
         } catch (Exception e) {
-            LOG.error("Exception in saving User: " + e, e);
+            log.error("Exception in saving User: " + e, e);
         }
         return Optional.empty();
     }
@@ -40,7 +40,7 @@ public class HibUserRepository implements UserRepository {
                     )
             );
         } catch (Exception e) {
-            LOG.error("Exception in finding User by email and password: " + e, e);
+            log.error("Exception in finding User by email and password: " + e, e);
         }
         return Optional.empty();
     }
@@ -54,7 +54,7 @@ public class HibUserRepository implements UserRepository {
                     Map.of("fId", id)
             );
         } catch (Exception e) {
-            LOG.error("Exception in finding User by id: " + id + " " + e);
+            log.error("Exception in finding User by id: " + id + " " + e);
         }
         return Optional.empty();
     }
@@ -68,7 +68,7 @@ public class HibUserRepository implements UserRepository {
             );
             return allUsers;
         } catch (Exception e) {
-            LOG.error("Exception in finding all User: " + " " + e);
+            log.error("Exception in finding all User: " + " " + e);
         }
         return Collections.emptyList();
     }

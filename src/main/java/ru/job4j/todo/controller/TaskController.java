@@ -46,7 +46,7 @@ public class TaskController {
     public String addNewTask(Model model, @ModelAttribute Task task, HttpSession session, @RequestParam(value = "category.id") List<Integer> ids) {
         User user = (User) session.getAttribute("user");
         task.setUser(user);
-        List<Category> categories = (List<Category>) categoryService.findAllByIds(ids);
+        List<Category> categories = categoryService.findAllByIds(ids);
         task.setCategories(categories);
         var optionalTask = taskService.save(task);
         if (optionalTask.isEmpty()) {
@@ -88,7 +88,7 @@ public class TaskController {
     public String updateTask(Model model, @ModelAttribute Task task, HttpSession session, @RequestParam(value = "category.id") List<Integer> ids) {
         var user = (User) session.getAttribute("user");
         task.setUser(user);
-        List<Category> categories = (List<Category>) categoryService.findAllByIds(ids);
+        List<Category> categories = categoryService.findAllByIds(ids);
         task.setCategories(categories);
         boolean flag = taskService.update(task);
         if (!flag) {

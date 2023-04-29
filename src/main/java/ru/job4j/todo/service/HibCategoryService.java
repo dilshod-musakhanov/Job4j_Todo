@@ -16,12 +16,12 @@ public class HibCategoryService implements CategoryService {
     }
 
     @Override
-    public Collection<Category> findAll() {
+    public List<Category> findAll() {
         return categoryRepository.findAll();
     }
 
     @Override
-    public Collection<Category> findAllByIds(List<Integer> ids) {
+    public List<Category> findAllByIds(List<Integer> ids) {
         return categoryRepository.findAllByIds(ids);
     }
 }

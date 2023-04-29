@@ -1,7 +1,7 @@
 package ru.job4j.todo.repository;
 
 import lombok.AllArgsConstructor;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Task;
 
@@ -13,9 +13,8 @@ import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
+@Log4j
 public class HibTaskRepository implements TaskRepository {
-
-    private static final Logger LOG = Logger.getLogger(HibTaskRepository.class.getName());
     private final CrudRepository crudRepository;
 
     @Override
@@ -24,7 +23,7 @@ public class HibTaskRepository implements TaskRepository {
             crudRepository.run(session -> session.persist(task));
             return Optional.of(task);
         } catch (Exception e) {
-            LOG.error("Exception in saving Task: " + task + " " + e);
+            log.error("Exception in saving Task: " + task + " " + e);
         }
         return Optional.empty();
     }
@@ -38,7 +37,7 @@ public class HibTaskRepository implements TaskRepository {
             );
             return allTasks.stream().distinct().collect(Collectors.toList());
         } catch (Exception e) {
-            LOG.error("Exception in finding all Tasks: " + e);
+            log.error("Exception in finding all Tasks: " + e);
         }
         return Collections.emptyList();
     }
@@ -52,7 +51,7 @@ public class HibTaskRepository implements TaskRepository {
                     Map.of("fId", id)
             );
         } catch (Exception e) {
-            LOG.error("Exception in finding Task by id: " + id + " " + e);
+            log.error("Exception in finding Task by id: " + id + " " + e);
         }
         return Optional.empty();
     }
@@ -66,7 +65,7 @@ public class HibTaskRepository implements TaskRepository {
             );
             return true;
         } catch (Exception e) {
-            LOG.error("Exception in deleting Task by id: " + id + " " + e);
+            log.error("Exception in deleting Task by id: " + id + " " + e);
         }
         return false;
     }
@@ -77,7 +76,7 @@ public class HibTaskRepository implements TaskRepository {
             crudRepository.run(session -> session.update(task));
             return true;
         } catch (Exception e) {
-            LOG.error("Exception in updating Task: " + e);
+            log.error("Exception in updating Task: " + e);
         }
         return false;
     }
@@ -92,7 +91,7 @@ public class HibTaskRepository implements TaskRepository {
             );
             return allTasks;
         } catch (Exception e) {
-            LOG.error("Exception in finding by Task status: " + flag + " " + e);
+            log.error("Exception in finding by Task status: " + flag + " " + e);
         }
         return Collections.emptyList();
     }
