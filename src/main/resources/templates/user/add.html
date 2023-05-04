@@ -72,6 +72,13 @@
                         <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control" name="password" id="password" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="timezone">Time Zone</label>
+                        <select class="form-control" id="timezone" name="timezone">
+                            <option th:each="timezone : ${timeZones}" th:value="${timezone.getID()}"
+                                    th:text="${timezone.getID() + ' ' + timezone.getDisplayName()}"></option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-dark">Submit</button>
                 </form>
             </div>

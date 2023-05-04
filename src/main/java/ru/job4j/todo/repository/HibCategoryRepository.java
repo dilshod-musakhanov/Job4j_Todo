@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Category;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 
 @Repository
@@ -32,12 +30,11 @@ public class HibCategoryRepository implements CategoryRepository {
 
     @Override
     public List<Category> findAllByIds(List<Integer> ids) {
-        String idsString = ids.stream().map(Objects::toString).collect(Collectors.joining(", "));
         try {
             List<Category> categories = crudRepository.query(
-                    "FROM Category WHERE id IN (fIds)",
+                    "FROM Category WHERE id IN :fIds",
                     Category.class,
-                    Map.of("fids", idsString)
+                    Map.of("fIds", ids)
             );
             return categories;
         } catch (Exception e) {

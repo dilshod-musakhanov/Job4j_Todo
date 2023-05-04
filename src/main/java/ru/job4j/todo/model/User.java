@@ -25,4 +25,7 @@ public class User {
 
     private String password;
 
+    @Column(name = "userzone")
+    private String timezone;
+
 }

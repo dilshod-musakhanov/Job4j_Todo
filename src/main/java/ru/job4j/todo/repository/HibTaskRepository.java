@@ -32,7 +32,7 @@ public class HibTaskRepository implements TaskRepository {
     public Collection<Task> findAll() {
         try {
             var allTasks = crudRepository.query(
-                    "FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories ORDER BY title ASC",
+                    "FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories ORDER BY t.title ASC",
                     Task.class
             );
             return allTasks.stream().distinct().collect(Collectors.toList());
@@ -85,7 +85,7 @@ public class HibTaskRepository implements TaskRepository {
     public Collection<Task> findByStatus(boolean flag) {
         try {
             Collection<Task> allTasks = crudRepository.query(
-                    "FROM Task AS t JOIN FETCH t.priority WHERE t.done = :fDone",
+                    "FROM Task AS t JOIN FETCH t.priority WHERE t.done = :fDone ORDER BY t.priority.id ASC",
                     Task.class,
                     Map.of("fDone", flag)
             );

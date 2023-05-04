@@ -10,6 +10,7 @@ import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.CategoryService;
 import ru.job4j.todo.service.PriorityService;
 import ru.job4j.todo.service.TaskService;
+import ru.job4j.todo.util.TimeZoneConvertor;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -23,12 +24,13 @@ public class TaskController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public String findAllTask(Model model) {
+    public String findAllTask(Model model, @SessionAttribute User user) {
         var tasks = taskService.findAll();
         if (tasks.isEmpty()) {
             model.addAttribute("message", "Your task bucket is empty. Please add new task");
             return "error/message";
         }
+        tasks.forEach(task -> TimeZoneConvertor.setTimeZone(user, task));
         model.addAttribute("tasks", tasks);
         return "task/tasks";
     }
@@ -57,12 +59,13 @@ public class TaskController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editTaskById(Model model, @PathVariable("id") int id) {
+    public String editTaskById(Model model, @PathVariable("id") int id, @SessionAttribute User user) {
         var optionalTask = taskService.findById(id);
         if (optionalTask.isEmpty()) {
             model.addAttribute("message", "Unable to view the task. Please try again");
             return "error/message";
         }
+        TimeZoneConvertor.setTimeZone(user, optionalTask.get());
         model.addAttribute("task", optionalTask.get());
         return "task/task";
     }
@@ -100,23 +103,25 @@ public class TaskController {
     }
 
     @GetMapping("/pending")
-    public String undoneTask(Model model) {
+    public String undoneTask(Model model, @SessionAttribute User user) {
         var tasks = taskService.findByStatusPending();
         if (tasks.isEmpty()) {
             model.addAttribute("message", "It looks like you do not have any pending tasks");
             return "error/message";
         }
+        tasks.forEach(task -> TimeZoneConvertor.setTimeZone(user, task));
         model.addAttribute("tasks", tasks);
         return "task/undone";
     }
 
     @GetMapping("/completed")
-    public String doneTask(Model model) {
+    public String doneTask(Model model, @SessionAttribute User user) {
         var tasks = taskService.findByStatusDone();
         if (tasks.isEmpty()) {
             model.addAttribute("message", "It looks like you do not have any completed tasks yet");
             return "error/message";
         }
+        tasks.forEach(task -> TimeZoneConvertor.setTimeZone(user, task));
         model.addAttribute("tasks", tasks);
         return "task/done";
     }

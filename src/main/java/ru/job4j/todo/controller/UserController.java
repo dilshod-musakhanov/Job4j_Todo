@@ -3,15 +3,14 @@ package ru.job4j.todo.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.User;
 import ru.job4j.todo.repository.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.TimeZone;
 
 @Controller
 @AllArgsConstructor
@@ -20,12 +19,18 @@ public class UserController {
     private final UserRepository userRepository;
 
     @GetMapping("/signUpForm")
-    public String getSignUpForm() {
+    public String getSignUpForm(Model model) {
+        var timeZones = new ArrayList<TimeZone>();
+        for (String timeId : TimeZone.getAvailableIDs()) {
+            timeZones.add(TimeZone.getTimeZone(timeId));
+        }
+        model.addAttribute("timeZones", timeZones);
         return "user/add";
     }
 
     @PostMapping("/addNew")
-    public String addNewUser(Model model, @ModelAttribute User user) {
+    public String addNewUser(Model model, @ModelAttribute User user, @RequestParam (value = "timezone") TimeZone timeZone) {
+        user.setTimezone(timeZone.getID());
         var optionalUser = userRepository.save(user);
         if (optionalUser.isEmpty()) {
             model.addAttribute(
