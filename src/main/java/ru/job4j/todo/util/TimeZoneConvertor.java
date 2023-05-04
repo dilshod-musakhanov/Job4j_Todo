@@ -7,7 +7,12 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.TimeZone;
 
-public class TimeZoneConvertor {
+public final class TimeZoneConvertor {
+
+    private TimeZoneConvertor() {
+
+    }
+
     public static void setTimeZone(User user, Task task) {
         ZoneId defaultTimeZone = java.util.TimeZone.getDefault().toZoneId();
         if (null == user.getTimezone()) {

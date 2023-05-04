@@ -9,6 +9,7 @@ import ru.job4j.todo.repository.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.TimeZone;
 
@@ -21,7 +22,7 @@ public class UserController {
     @GetMapping("/signUpForm")
     public String getSignUpForm(Model model) {
         var timeZones = new ArrayList<TimeZone>();
-        for (String timeId : TimeZone.getAvailableIDs()) {
+        for (String timeId : ZoneId.getAvailableZoneIds()) {
             timeZones.add(TimeZone.getTimeZone(timeId));
         }
         model.addAttribute("timeZones", timeZones);
